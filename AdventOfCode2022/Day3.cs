@@ -39,6 +39,12 @@ namespace AdventOfCode2022
             return index;
         }
 
+        int getPriority(char itemType) => Char.IsUpper(itemType) switch
+        {
+            true => (int)itemType - 38,
+            false => (int)itemType - 96,
+        };
+
         public static void Part1()
         {
             string[] lines = DataReader();
@@ -65,11 +71,12 @@ namespace AdventOfCode2022
             string[] lines = DataReader();
             int indexTotal = 0;
 
-            IEnumerable<string[]> chunks = lines.Chunk(lines.Length / 2);
+            IEnumerable<string[]> chunks = lines.Chunk(3);
 
             foreach (string[] bags in chunks)
             {
                 string currentBag = bags[0];
+                // Console.WriteLine($"Current bag is: {currentBag}");
                 char mostCommonLetter = " "[0];
 
                 foreach (string bag in bags)
@@ -77,15 +84,32 @@ namespace AdventOfCode2022
                     foreach (var letter in currentBag.Intersect(bag))
                     {
                         mostCommonLetter = letter;
+                        // Console.WriteLine($"Intersected letter is: {letter}");
                     }
 
                     currentBag = bag;
-                    indexTotal += FindLetterIndex(mostCommonLetter);
+                    // Console.WriteLine(currentBag);
                 }
 
-                // Console.WriteLine("\n");
-                Console.WriteLine(indexTotal.ToString());
+                // Console.WriteLine($"Most common letter is: {mostCommonLetter}");
+                indexTotal += FindLetterIndex(mostCommonLetter);
+
             }
+
+            // Console.WriteLine(indexTotal.ToString());
+
+
+            int p2Sum = lines.Chunk(3).Select(ls =>
+            {
+                var first = ls[0];
+                var second = ls[1];
+                var third = ls[2];
+
+                return first.Intersect(second).Intersect(third).Select(c => Char.IsUpper(c) ? c - 38 : c - 96).Sum();
+
+            }).Sum();
+
+            Console.WriteLine(p2Sum.ToString());
         }
     }
 }
