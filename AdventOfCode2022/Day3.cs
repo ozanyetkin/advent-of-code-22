@@ -39,11 +39,13 @@ namespace AdventOfCode2022
             return index;
         }
 
+        /*
         int getPriority(char itemType) => Char.IsUpper(itemType) switch
         {
             true => (int)itemType - 38,
             false => (int)itemType - 96,
         };
+        */
 
         public static void Part1()
         {

@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using AdventOfCode2022;
+﻿using AdventOfCode2022;
 
 Console.WriteLine("Hello, Advent of Code!");
 
@@ -14,3 +13,7 @@ Day2.Part2();
 Console.WriteLine("Day 3");
 Day3.Part1();
 Day3.Part2();
+
+Console.WriteLine("Day 4");
+Day4.Part1();
+Day4.Part2();
