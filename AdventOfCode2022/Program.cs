@@ -21,3 +21,7 @@ Day4.Part2();
 Console.WriteLine("Day 5");
 Day5.Part1();
 Day5.Part2();
+
+Console.WriteLine("Day 6");
+Day6.Part1();
+Day6.Part2();
