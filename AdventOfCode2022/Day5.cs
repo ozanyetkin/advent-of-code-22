@@ -73,7 +73,7 @@ namespace AdventOfCode2022
         {
             var positions = new List<int>();
             row
-                .Select((c, idx) => new { character = c, index = idx })
+                .Select((c, idx) => new {character = c, index = idx})
                 .ToList()
                 .ForEach(c =>
                 {
@@ -88,12 +88,13 @@ namespace AdventOfCode2022
             // Console.WriteLine(lines[0]);
             // Dictionary<int, Stack<string>> parsedStacks = ParseStacks(lines[0]);
 
-            var moveInstructions = lines[1].Split(Environment.NewLine);
             var crateRows = lines[0].Split(Environment.NewLine);
             var crateNumberRow = crateRows.Last();
             var crateLabelPositions = GetLabelPositions(crateNumberRow);
+
             Dictionary<int, Stack<string>> crateStacks = PopulateCrateStacks(crateLabelPositions, crateRows);
 
+            /*
             foreach (KeyValuePair<int, Stack<string>> entry in crateStacks)
             {
                 // Console.WriteLine(entry);
@@ -104,6 +105,45 @@ namespace AdventOfCode2022
                     Console.WriteLine(item);
                 }
             }
+            */
+
+            var moveInstructions = lines[1].Split(Environment.NewLine);
+
+            foreach (string instruction in moveInstructions)
+            {
+                string[] parsedInstruction = instruction
+                    .Replace("move ", "")
+                    .Replace("from ", "")
+                    .Replace("to ", "")
+                    .Split(" ");
+
+                int moveRepetition = Int32.Parse(parsedInstruction[0]);
+                int moveFrom = Int32.Parse(parsedInstruction[1]);
+                int moveTo = Int32.Parse(parsedInstruction[2]);
+
+                for (int i = 0; i < moveRepetition; i++)
+                {
+                    string crate = crateStacks[moveFrom].Pop();
+                    crateStacks[moveTo].Push(crate);
+                }
+            }
+
+            string topCrates = "";
+
+            foreach (KeyValuePair<int, Stack<string>> entry in crateStacks)
+            {
+                // Console.WriteLine(entry);
+                // Console.WriteLine($"{entry.Key}");
+
+                foreach (string item in entry.Value)
+                {
+                    // Console.WriteLine(item);
+                }
+
+                topCrates += entry.Value.Pop();
+            }
+
+            Console.WriteLine(topCrates);
 
             /*
             foreach (string line in lines)
@@ -157,6 +197,61 @@ namespace AdventOfCode2022
                 }
             }
             */
+        }
+
+        public static void Part2()
+        {
+            string[] lines = DataReader();
+
+            var crateRows = lines[0].Split(Environment.NewLine);
+            var crateNumberRow = crateRows.Last();
+            var crateLabelPositions = GetLabelPositions(crateNumberRow);
+
+            Dictionary<int, Stack<string>> crateStacks = PopulateCrateStacks(crateLabelPositions, crateRows);
+
+            var moveInstructions = lines[1].Split(Environment.NewLine);
+
+            foreach (string instruction in moveInstructions)
+            {
+                string[] parsedInstruction = instruction
+                    .Replace("move ", "")
+                    .Replace("from ", "")
+                    .Replace("to ", "")
+                    .Split(" ");
+
+                int moveRepetition = Int32.Parse(parsedInstruction[0]);
+                int moveFrom = Int32.Parse(parsedInstruction[1]);
+                int moveTo = Int32.Parse(parsedInstruction[2]);
+
+                string combinedCrate = "";
+
+                for (int i = 0; i < moveRepetition; i++)
+                {
+                    combinedCrate += crateStacks[moveFrom].Pop();
+                }
+
+                foreach (char c in combinedCrate.Reverse())
+                {
+                    crateStacks[moveTo].Push(c.ToString());
+                }                
+            }
+
+            string topCrates = "";
+
+            foreach (KeyValuePair<int, Stack<string>> entry in crateStacks)
+            {
+                // Console.WriteLine(entry);
+                // Console.WriteLine($"{entry.Key}");
+
+                foreach (string item in entry.Value)
+                {
+                    // Console.WriteLine(item);
+                }
+
+                topCrates += entry.Value.Pop();
+            }
+
+            Console.WriteLine(topCrates);
         }
     }
 }
