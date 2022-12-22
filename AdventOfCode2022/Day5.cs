@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace AdventOfCode2022
     {
         static string[] DataReader()
         {
-            string[] lines = File.ReadAllText(@"C:\Users\Yetkin\OneDrive\Desktop\Projects\AdventOfCode2022\AdventOfCode2022\Day5.txt").Split("\r\n\r\n");
+            string[] lines = System.IO.File.ReadAllText(@"C:\Users\Yetkin\OneDrive\Desktop\Projects\AdventOfCode2022\AdventOfCode2022\Day5.txt").Split("\r\n\r\n");
 
             return lines;
         }

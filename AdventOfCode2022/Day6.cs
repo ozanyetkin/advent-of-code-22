@@ -10,7 +10,7 @@ namespace AdventOfCode2022
     {
         static string DataReader()
         {
-            string line = File.ReadAllText(@"C:\Users\Yetkin\OneDrive\Desktop\Projects\AdventOfCode2022\AdventOfCode2022\Day6.txt");
+            string line = System.IO.File.ReadAllText(@"C:\Users\Yetkin\OneDrive\Desktop\Projects\AdventOfCode2022\AdventOfCode2022\Day6.txt");
 
             return line;
         }
