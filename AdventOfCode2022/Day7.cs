@@ -54,7 +54,7 @@ namespace AdventOfCode2022
             }
         }
 
-        static void calcDirectorySizes(Directory dir, Dictionary<Directory, long> sizes)
+        static void calculateDirectorySizes(Directory dir, Dictionary<Directory, long> sizes)
         {
             long size = 0;
             foreach (var child in dir.Children)
@@ -65,7 +65,7 @@ namespace AdventOfCode2022
                 }
                 else if (child.Value is Directory d)
                 {
-                    calcDirectorySizes(d, sizes);
+                    calculateDirectorySizes(d, sizes);
                     size += sizes[d];
                 }
             }
@@ -80,7 +80,7 @@ namespace AdventOfCode2022
             parseData(root, lines);
 
             var sizes = new Dictionary<Directory, long>();
-            calcDirectorySizes(root, sizes);
+            calculateDirectorySizes(root, sizes);
 
             Console.WriteLine(sizes.Values.Where(size => size <= 100000).Sum());
         }
@@ -93,7 +93,7 @@ namespace AdventOfCode2022
             parseData(root, lines);
 
             var sizes = new Dictionary<Directory, long>();
-            calcDirectorySizes(root, sizes);
+            calculateDirectorySizes(root, sizes);
 
             Console.WriteLine(sizes.Values.Where(size => size >= sizes[root] - 40000000).Min());
         }
