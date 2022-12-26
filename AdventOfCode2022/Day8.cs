@@ -158,5 +158,142 @@ namespace AdventOfCode2022
 
             Console.WriteLine(visibleTrees);
         }
+
+        public static int ScenicScoreUp(int i, int j, int startH, int[,] map, int scenicScore=0)
+        {
+            if (i == 0)
+            {
+                return scenicScore;
+            }
+            else
+            {
+                try
+                {
+                    if (map[i - 1, j] < startH)
+                    {
+                        scenicScore++;
+                        return ScenicScoreUp(i - 1, j, startH, map, scenicScore);
+                    }
+                    else
+                    {
+                        return scenicScore;
+                    }
+                }
+                catch
+                {
+                    return scenicScore;
+                }
+            }
+        }
+
+        public static int ScenicScoreDown(int i, int j, int startH, int[,] map, int scenicScore=0)
+        {
+            if (i == map.Length - 1)
+            {
+                return scenicScore;
+            }
+            else
+            {
+                try
+                {
+                    if (map[i + 1, j] < startH)
+                    {
+                        scenicScore++;
+                        return ScenicScoreDown(i + 1, j, startH, map, scenicScore);
+                    }
+                    else
+                    {
+                        return scenicScore;
+                    }
+                }
+                catch
+                {
+                    return scenicScore;
+                }
+            }
+        }
+
+        public static int ScenicScoreLeft(int i, int j, int startH, int[,] map, int scenicScore=0)
+        {
+            if (j == 0)
+            {
+                return scenicScore;
+            }
+            else
+            {
+                try
+                {
+                    if (map[i, j - 1] < startH)
+                    {
+                        scenicScore++;
+                        return ScenicScoreLeft(i, j - 1, startH, map, scenicScore);
+                    }
+                    else
+                    {
+                        return scenicScore;
+                    }
+                }
+                catch
+                {
+                    return scenicScore;
+                }
+            }
+        }
+
+        public static int ScenicScoreRight(int i, int j, int startH, int[,] map, int scenicScore=0)
+        {
+            if (j == map.Length - 1)
+            {
+                return scenicScore;
+            }
+            else
+            {
+                try
+                {
+                    if (map[i, j + 1] < startH)
+                    {
+                        scenicScore++;
+                        return ScenicScoreRight(i, j + 1, startH, map, scenicScore);
+                    }
+                    else
+                    {
+                        return scenicScore;
+                    }
+                }
+                catch
+                {
+                    return scenicScore;
+                }
+            }
+        }
+
+        public static void Part2()
+        {
+            string[] data = DataReader();
+            int[,] treeMap = MapGenerator(data);
+
+            int scenicScore = 1;
+            int maxScenicScore = 0;
+
+            for (int i = 0; i < treeMap.GetLength(0); i++)
+            {
+                for (int j = 0; j < treeMap.GetLength(1); j++)
+                {
+                    scenicScore *= ScenicScoreUp(i, j, treeMap[i, j], treeMap);
+                    scenicScore *= ScenicScoreDown(i, j, treeMap[i, j], treeMap);
+                    scenicScore *= ScenicScoreLeft(i, j, treeMap[i, j], treeMap);
+                    scenicScore *= ScenicScoreRight(i, j, treeMap[i, j], treeMap);
+
+                    Console.WriteLine(scenicScore);
+
+                    if (scenicScore > maxScenicScore)
+                    {
+                        maxScenicScore = scenicScore;
+                    }
+                }
+            }
+
+            Console.WriteLine(maxScenicScore);
+        }
     }
 }

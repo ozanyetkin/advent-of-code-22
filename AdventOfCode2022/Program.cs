@@ -32,3 +32,5 @@ Day7.Part2();
 
 Console.WriteLine("Day 8");
 Day8.Part1();
+Day8.Part2();
+
