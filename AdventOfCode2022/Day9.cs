@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,12 +58,51 @@ namespace AdventOfCode2022
             return tailPosition;
         }
 
+        /*
+        int Visited(int numberOfKnots)
+        {
+            HashSet<(int, int)> visited = new();
+            var knots = new (int X, int Y)[numberOfKnots];
+
+            foreach (var move in input)
+            {
+                for (int i = 0; i < move.Distance; i++)
+                {
+                    knots[0] = move.Direction switch
+                    {
+                        'L' => (--knots[0].X, knots[0].Y),
+                        'R' => (++knots[0].X, knots[0].Y),
+                        'U' => (knots[0].X, ++knots[0].Y),
+                        'D' => (knots[0].X, --knots[0].Y),
+                        _ => throw new InvalidOperationException("we broke"),
+                    };
+
+                    for (int j = 1; j < numberOfKnots; j++)
+                    {
+                        var xDist = knots[j - 1].X - knots[j].X;
+                        var yDist = knots[j - 1].Y - knots[j].Y;
+
+                        if (Math.Abs(xDist) > 1 || Math.Abs(yDist) > 1)
+                        {
+                            knots[j].X += Math.Sign(xDist);
+                            knots[j].Y += Math.Sign(yDist);
+                        }
+                    }
+
+                    visited.Add(knots.Last());
+                }
+            }
+
+            return visited.Count;
+        }
+        */
+
         public static void Part1()
         {
             string[] data = DataReader();
 
-            (int, int) startHead = (0, 0);
-            Tuple<int, int> startTail = Tuple.Create(0, 0);
+            (int, int) posHead = (0, 0);
+            Tuple<int, int> posTail = Tuple.Create(0, 0);
             List<(string, int)> movesList = DataParser(data);
 
             var directionDict = new Dictionary<string, (int, int)>
@@ -77,12 +117,98 @@ namespace AdventOfCode2022
             {
                 for (int i = 0; i < move.Item2; i++)
                 {
-                    startHead.Item1 += directionDict[move.Item1].Item1;
-                    startHead.Item2 += directionDict[move.Item1].Item2;
+                    posHead.Item1 += directionDict[move.Item1].Item1;
+                    posHead.Item2 += directionDict[move.Item1].Item2;
 
-                    Console.WriteLine(startHead);
+                    // Console.WriteLine(posHead);
                 }
             }
+
+            var input = data.Select(x => new { Direction = x[0], Distance = int.Parse(x.Substring(2)) });
+
+            int Visited(int numberOfKnots)
+            {
+                HashSet<(int, int)> visited = new();
+                var knots = new (int X, int Y)[numberOfKnots];
+
+                foreach (var move in input)
+                {
+                    for (int i = 0; i < move.Distance; i++)
+                    {
+                        knots[0] = move.Direction switch
+                        {
+                            'L' => (--knots[0].X, knots[0].Y),
+                            'R' => (++knots[0].X, knots[0].Y),
+                            'U' => (knots[0].X, ++knots[0].Y),
+                            'D' => (knots[0].X, --knots[0].Y),
+                            _ => throw new InvalidOperationException("we broke"),
+                        };
+
+                        for (int j = 1; j < numberOfKnots; j++)
+                        {
+                            var xDist = knots[j - 1].X - knots[j].X;
+                            var yDist = knots[j - 1].Y - knots[j].Y;
+
+                            if (Math.Abs(xDist) > 1 || Math.Abs(yDist) > 1)
+                            {
+                                knots[j].X += Math.Sign(xDist);
+                                knots[j].Y += Math.Sign(yDist);
+                            }
+                        }
+
+                        visited.Add(knots.Last());
+                    }
+                }
+
+                return visited.Count;
+            }
+
+            Console.WriteLine(Visited(2));
+        }
+
+        public static void Part2()
+        {
+            string[] data = DataReader();
+            var input = data.Select(x => new { Direction = x[0], Distance = int.Parse(x.Substring(2)) });
+
+            int Visited(int numberOfKnots)
+            {
+                HashSet<(int, int)> visited = new();
+                var knots = new (int X, int Y)[numberOfKnots];
+
+                foreach (var move in input)
+                {
+                    for (int i = 0; i < move.Distance; i++)
+                    {
+                        knots[0] = move.Direction switch
+                        {
+                            'L' => (--knots[0].X, knots[0].Y),
+                            'R' => (++knots[0].X, knots[0].Y),
+                            'U' => (knots[0].X, ++knots[0].Y),
+                            'D' => (knots[0].X, --knots[0].Y),
+                            _ => throw new InvalidOperationException("we broke"),
+                        };
+
+                        for (int j = 1; j < numberOfKnots; j++)
+                        {
+                            var xDist = knots[j - 1].X - knots[j].X;
+                            var yDist = knots[j - 1].Y - knots[j].Y;
+
+                            if (Math.Abs(xDist) > 1 || Math.Abs(yDist) > 1)
+                            {
+                                knots[j].X += Math.Sign(xDist);
+                                knots[j].Y += Math.Sign(yDist);
+                            }
+                        }
+
+                        visited.Add(knots.Last());
+                    }
+                }
+
+                return visited.Count;
+            }
+
+            Console.WriteLine(Visited(10));
         }
     }
 }
